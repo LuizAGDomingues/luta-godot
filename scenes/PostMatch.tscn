@@ -1,0 +1,193 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/PostMatch.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0.05, 0.05, 0.16, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.51, 0.55, 0.97, 0.25)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.09, 0.10, 0.24, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.51, 0.55, 0.97, 0.32)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.10, 0.12, 0.30, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.51, 0.55, 0.97, 0.9)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="PostMatch" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Fundo" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.03, 0.09, 1)
+
+[node name="Centro" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Painel" type="PanelContainer" parent="Centro"]
+custom_minimum_size = Vector2(720, 420)
+theme_override_styles/panel = SubResource("1")
+
+[node name="Conteudo" type="MarginContainer" parent="Centro/Painel"]
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Coluna" type="VBoxContainer" parent="Centro/Painel/Conteudo"]
+theme_override_constants/separation = 18
+
+[node name="Resultado" type="Label" parent="Centro/Painel/Conteudo/Coluna"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.90, 0.92, 1, 1)
+text = "Resultado"
+
+[node name="Stats" type="GridContainer" parent="Centro/Painel/Conteudo/Coluna"]
+columns = 3
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 10
+
+[node name="HeaderP1" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.51, 0.55, 0.97, 1)
+text = "P1"
+
+[node name="HeaderLabel" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.40, 0.45, 0.55, 1)
+text = "ESTATISTICA"
+
+[node name="HeaderP2" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.96, 0.45, 0.71, 1)
+text = "P2"
+
+[node name="P1Dano" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.51, 0.55, 0.97, 1)
+text = "0"
+
+[node name="LabelDano" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.40, 0.45, 0.55, 1)
+text = "DANO"
+
+[node name="P2Dano" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 0
+theme_override_colors/font_color = Color(0.96, 0.45, 0.71, 1)
+text = "0"
+
+[node name="P1Hits" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.51, 0.55, 0.97, 1)
+text = "0"
+
+[node name="LabelHits" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.40, 0.45, 0.55, 1)
+text = "HITS"
+
+[node name="P2Hits" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 0
+theme_override_colors/font_color = Color(0.96, 0.45, 0.71, 1)
+text = "0"
+
+[node name="P1Combo" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.51, 0.55, 0.97, 1)
+text = "0"
+
+[node name="LabelCombo" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.40, 0.45, 0.55, 1)
+text = "MAX COMBO"
+
+[node name="P2Combo" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 0
+theme_override_colors/font_color = Color(0.96, 0.45, 0.71, 1)
+text = "0"
+
+[node name="P1Rounds" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.51, 0.55, 0.97, 1)
+text = "0"
+
+[node name="LabelRounds" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.40, 0.45, 0.55, 1)
+text = "ROUNDS"
+
+[node name="P2Rounds" type="Label" parent="Centro/Painel/Conteudo/Coluna/Stats"]
+horizontal_alignment = 0
+theme_override_colors/font_color = Color(0.96, 0.45, 0.71, 1)
+text = "0"
+
+[node name="Botoes" type="VBoxContainer" parent="Centro/Painel/Conteudo/Coluna"]
+theme_override_constants/separation = 12
+
+[node name="Revanche" type="Button" parent="Centro/Painel/Conteudo/Coluna/Botoes"]
+theme_override_styles/normal = SubResource("2")
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/focus = SubResource("3")
+theme_override_styles/pressed = SubResource("3")
+theme_override_colors/font_color = Color(0.78, 0.82, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+text = "REVANCHE"
+
+[node name="Selecao" type="Button" parent="Centro/Painel/Conteudo/Coluna/Botoes"]
+theme_override_styles/normal = SubResource("2")
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/focus = SubResource("3")
+theme_override_styles/pressed = SubResource("3")
+theme_override_colors/font_color = Color(0.78, 0.82, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+text = "SELECAO DE PERSONAGEM"
+
+[node name="Menu" type="Button" parent="Centro/Painel/Conteudo/Coluna/Botoes"]
+theme_override_styles/normal = SubResource("2")
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/focus = SubResource("3")
+theme_override_styles/pressed = SubResource("3")
+theme_override_colors/font_color = Color(0.78, 0.82, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+text = "MENU PRINCIPAL"

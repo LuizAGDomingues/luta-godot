@@ -78,6 +78,8 @@ Hoje o projeto Godot ja tem uma base funcional jogavel.
 
 ### Features atualmente implementadas no Godot
 
+- menu com layout em duas colunas inspirado no JS
+- navegacao por teclado no menu principal
 - movimentacao lateral
 - pulo e gravidade
 - dash por double-tap
@@ -93,21 +95,24 @@ Hoje o projeto Godot ja tem uma base funcional jogavel.
 - versus
 - arcade com IA simples
 - treino com dummy
+- selecao com previews, confirmacao por teclado e countdown
 - projetil para `huntress_2`
-- HUD
+- HUD em layout aproximado do canvas original
 - numeros de dano
 - camera shake simples
 - musica de batalha
 - estatisticas basicas de partida
+- pausa com continuar/reiniciar/menu
+- pos-partida com stats e navegacao por teclado
 - hitboxes visiveis no treino com `H`
 
 ### O que ainda esta incompleto ou distante do JS
 
-- design das telas ainda esta so parcialmente aproximado do original
-- HUD ainda nao esta com o mesmo acabamento do HTML/CSS do JS
-- selecao ainda nao tem comportamento completo de confirmacao individual e countdown
-- menu ainda nao implementa navegacao estilo overlay do JS
-- pos-partida ainda nao tem toda a navegacao/animacao do original
+- design das telas ja foi aproximado estruturalmente, mas ainda nao e uma replica fiel do HTML/CSS do JS
+- HUD ainda nao tem o mesmo acabamento e animacao visual do original
+- selecao ja tem confirmacao e countdown, mas ainda nao replica o fluxo/cartoes do JS com a mesma fidelidade
+- menu ja tem navegacao por teclado, mas ainda nao tem todos os overlays/modais do original
+- pos-partida e pausa ja existem com navegacao, mas ainda faltam acabamento e polish
 - efeitos visuais do JS ainda estao simplificados
 - particulas do JS ainda nao foram portadas
 - combo display dedicado ainda nao existe
@@ -237,12 +242,13 @@ Arquivos JS mais importantes para a migracao:
 ### Visual
 
 - o JS usa overlays HTML/CSS com identidade retro/neon mais forte
-- o Godot ainda esta numa aproximacao estrutural, nao numa replica visual fiel
+- o Godot ja esta numa aproximacao visual parcial, mas ainda nao numa replica fiel
 
 ### UX
 
 - o JS usa navegacao por teclado nos menus
-- o Godot atual esta mais dependente de clique
+- o Godot ja tem navegacao por teclado em menu, pausa, pos-partida e parte da selecao
+- ainda faltam mais consistencia visual de foco e mais fidelidade de fluxo na selecao
 
 ### Combate
 
@@ -266,8 +272,8 @@ Arquivos JS mais importantes para a migracao:
 Lista realista do que ainda falta migrar ou polir:
 
 - refinar o design de `MainMenu`, `CharacterSelect`, `HUD` e `PostMatch`
-- reproduzir melhor a navegacao de menus do JS
-- adicionar countdown/confirmacao de selecao mais parecida com a original
+- reproduzir melhor o acabamento/foco visual dos menus do JS
+- aproximar mais os cartoes e o fluxo da selecao do original
 - revisar hitboxes e offsets personagem por personagem
 - revisar alcance e frame windows de ataques
 - portar ou aproximar:
@@ -324,6 +330,9 @@ Estado real hoje:
 
 - o projeto Godot ja roda e esta jogavel
 - menu, selecao, batalha, pausa e pos-partida existem
+- as telas principais ja receberam uma primeira aproximacao visual do JS
+- menu, pausa e pos-partida ja aceitam navegacao por teclado
+- a selecao ja tem confirmacao por teclado e countdown
 - combate base, rounds, treino, arcade e projetil ja existem
 - o maior gap agora nao e mais parser ou estrutura basica
 - o maior gap agora e paridade visual, polish e comportamento fino frente ao JS

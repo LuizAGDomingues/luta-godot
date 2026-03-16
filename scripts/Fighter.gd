@@ -109,7 +109,7 @@ func configurar_personagem(novo_id):
 	sprite_anim.position = DadosPersonagens.calcular_offset_sprite(id_personagem)
 	sprite_anim.modulate = Color.WHITE
 	_aplicar_flip()
-	_tocar_animacao("idle")
+	sprite_anim.play("idle")
 	vida_alterada.emit(vida_atual, vida_max)
 
 func definir_modo_controle(novo_modo):

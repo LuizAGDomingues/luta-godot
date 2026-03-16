@@ -97,7 +97,8 @@ Hoje o projeto Godot ja tem uma base funcional jogavel.
 - treino com dummy
 - selecao com previews, confirmacao por teclado e countdown
 - projetil para `huntress_2`
-- HUD em layout aproximado do canvas original
+- HUD estilo Street Fighter com barras de vida anguladas (custom draw)
+- visual redesenhado em estilo arcade/fighting game (vermelho/dourado/preto)
 - numeros de dano
 - camera shake simples
 - musica de batalha
@@ -115,11 +116,6 @@ Hoje o projeto Godot ja tem uma base funcional jogavel.
 
 ### O que ainda esta incompleto ou distante do JS
 
-- design das telas ja foi aproximado estruturalmente, mas ainda nao e uma replica fiel do HTML/CSS do JS
-- HUD ainda nao tem o mesmo acabamento e animacao visual do original
-- selecao ja tem confirmacao e countdown, mas ainda nao replica o fluxo/cartoes do JS com a mesma fidelidade
-- menu ja tem navegacao por teclado, mas ainda nao tem todos os overlays/modais do original
-- pos-partida e pausa ja existem com navegacao, mas ainda faltam acabamento e polish
 - efeitos visuais do JS ainda podem ser mais refinados (particulas mais detalhadas, trails)
 - audio sintetizado do JS ainda nao foi aproximado com fidelidade
 - falta validar personagem por personagem
@@ -195,6 +191,8 @@ estao copiados e configurados em `DadosPersonagens.gd`.
 - `scripts/CameraJogo.gd`
 - `scripts/ComboDisplay.gd`
 - `scripts/EfeitosVisuais.gd`
+- `scripts/HUDDesenho.gd`
+- `scripts/MenuFundo.gd`
 
 ### Cenas principais
 
@@ -279,9 +277,7 @@ Arquivos JS mais importantes para a migracao:
 
 Lista realista do que ainda falta migrar ou polir:
 
-- refinar o design de `MainMenu`, `CharacterSelect`, `HUD` e `PostMatch`
-- reproduzir melhor o acabamento/foco visual dos menus do JS
-- aproximar mais os cartoes e o fluxo da selecao do original
+- continuar refinando fontes e tamanhos (fontes customizadas para fighting game)
 - revisar hitboxes e offsets personagem por personagem
 - revisar alcance e frame windows de ataques
 - portar ou aproximar:

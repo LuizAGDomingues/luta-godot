@@ -1,16 +1,16 @@
 extends Control
 
 @onready var label_modo: Label = $Centro/Conteudo/TituloModo
-@onready var select_p1: OptionButton = $Centro/Conteudo/Infos/CardP1/ConteudoP1/SelecaoP1
-@onready var select_p2: OptionButton = $Centro/Conteudo/Infos/CardP2/ConteudoP2/SelecaoP2
+@onready var select_p1: OptionButton = $Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1/SelecaoP1
+@onready var select_p2: OptionButton = $Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2/SelecaoP2
 @onready var linha_dificuldade: HBoxContainer = $Centro/Conteudo/LinhaDificuldade
 @onready var dificuldade: OptionButton = $Centro/Conteudo/LinhaDificuldade/Dificuldade
-@onready var preview_p1: TextureRect = $Centro/Conteudo/Infos/CardP1/ConteudoP1/PreviewP1
-@onready var preview_p2: TextureRect = $Centro/Conteudo/Infos/CardP2/ConteudoP2/PreviewP2
-@onready var info_p1: Label = $Centro/Conteudo/Infos/CardP1/ConteudoP1/InfoP1
-@onready var info_p2: Label = $Centro/Conteudo/Infos/CardP2/ConteudoP2/InfoP2
-@onready var ready_p1: Label = $Centro/Conteudo/Infos/CardP1/ConteudoP1/ReadyP1
-@onready var ready_p2: Label = $Centro/Conteudo/Infos/CardP2/ConteudoP2/ReadyP2
+@onready var preview_p1: TextureRect = $Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1/PreviewP1Frame/PreviewP1
+@onready var preview_p2: TextureRect = $Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2/PreviewP2Frame/PreviewP2
+@onready var info_p1: Label = $Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1/InfoP1
+@onready var info_p2: Label = $Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2/InfoP2
+@onready var ready_p1: Label = $Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1/ReadyP1
+@onready var ready_p2: Label = $Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2/ReadyP2
 @onready var countdown: Label = $Centro/Conteudo/Countdown
 
 var ids_personagens = []
@@ -31,9 +31,9 @@ func _ready() -> void:
 	select_p2.select(indice_p2)
 
 	dificuldade.clear()
-	dificuldade.add_item("Facil")
-	dificuldade.add_item("Medio")
-	dificuldade.add_item("Dificil")
+	dificuldade.add_item("Easy")
+	dificuldade.add_item("Medium")
+	dificuldade.add_item("Hard")
 	match GameState.dificuldade_ia:
 		"facil":
 			dificuldade.select(0)
@@ -44,12 +44,13 @@ func _ready() -> void:
 
 	label_modo.text = GameState.modo_jogo.to_upper()
 	linha_dificuldade.visible = GameState.modo_jogo == "arcade"
+	var label_p2 = $Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2/LabelP2
 	if GameState.modo_jogo == "arcade":
-		$Centro/Conteudo/Infos/CardP2/ConteudoP2/LabelP2.text = "CPU"
+		label_p2.text = "CPU"
 	elif GameState.modo_jogo == "treino":
-		$Centro/Conteudo/Infos/CardP2/ConteudoP2/LabelP2.text = "DUMMY"
+		label_p2.text = "DUMMY"
 	else:
-		$Centro/Conteudo/Infos/CardP2/ConteudoP2/LabelP2.text = "PLAYER 2"
+		label_p2.text = "PLAYER 2"
 
 	select_p1.item_selected.connect(_atualizar_infos)
 	select_p2.item_selected.connect(_atualizar_infos)
@@ -151,7 +152,7 @@ func _atualizar_infos(_indice: int) -> void:
 
 func _gerar_texto_info(config: Dictionary) -> String:
 	var stats: Dictionary = config["stats"]
-	return "%s\nHP: %d | SPD: %.1f\nATK1: %d | ATK2: %d" % [
+	return "%s\nHP: %d  SPD: %.1f\nATK1: %d  ATK2: %d" % [
 		config["nome"],
 		int(stats["vida"]),
 		float(stats["velocidade"]),

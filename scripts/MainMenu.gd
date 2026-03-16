@@ -2,18 +2,28 @@ extends Control
 
 var botoes = []
 var indice_foco = 0
+var timer_anim = 0.0
+
+@onready var fundo = $Fundo
+@onready var titulo = $Centro/Layout/Titulo
+@onready var subtitulo = $Centro/Layout/Subtitulo
+@onready var container_botoes = $Centro/Layout/Botoes
 
 func _ready() -> void:
 	GameState.garantir_input_map()
 	botoes = [
-		$Centro/Shell/Painel/ConteudoPainel/Botoes/Versus,
-		$Centro/Shell/Painel/ConteudoPainel/Botoes/Arcade,
-		$Centro/Shell/Painel/ConteudoPainel/Botoes/Treino
+		container_botoes.get_node("Versus"),
+		container_botoes.get_node("Arcade"),
+		container_botoes.get_node("Treino")
 	]
 	botoes[0].pressed.connect(_iniciar_versus)
 	botoes[1].pressed.connect(_iniciar_arcade)
 	botoes[2].pressed.connect(_iniciar_treino)
 	botoes[0].grab_focus()
+
+func _process(delta: float) -> void:
+	timer_anim += delta
+	fundo.queue_redraw()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:

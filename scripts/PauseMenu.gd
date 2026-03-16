@@ -11,9 +11,9 @@ func _ready() -> void:
 	visible = false
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	botoes = [
-		$Painel/Borda/Botoes/Continuar,
-		$Painel/Borda/Botoes/Reiniciar,
-		$Painel/Borda/Botoes/Menu
+		$Painel/Borda/Conteudo/Botoes/Continuar,
+		$Painel/Borda/Conteudo/Botoes/Reiniciar,
+		$Painel/Borda/Conteudo/Botoes/Menu
 	]
 	botoes[0].pressed.connect(_on_continuar_pressed)
 	botoes[1].pressed.connect(_on_reiniciar_pressed)

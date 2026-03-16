@@ -4,12 +4,12 @@ var botoes = []
 var indice_foco = 0
 
 func _ready() -> void:
-	$Centro/Painel/Conteudo/Resultado.text = GameState.vencedor_texto
+	$Centro/Painel/Conteudo/Coluna/Resultado.text = GameState.vencedor_texto
 	_preencher_estatisticas()
 	botoes = [
-		$Centro/Painel/Conteudo/Botoes/Revanche,
-		$Centro/Painel/Conteudo/Botoes/Selecao,
-		$Centro/Painel/Conteudo/Botoes/Menu
+		$Centro/Painel/Conteudo/Coluna/Botoes/Revanche,
+		$Centro/Painel/Conteudo/Coluna/Botoes/Selecao,
+		$Centro/Painel/Conteudo/Coluna/Botoes/Menu
 	]
 	botoes[0].pressed.connect(_revanche)
 	botoes[1].pressed.connect(_selecao)
@@ -47,12 +47,12 @@ func _preencher_estatisticas() -> void:
 	if stats.is_empty():
 		return
 
-	$Centro/Painel/Conteudo/Stats/P1Dano.text = str(stats["p1"]["dano"])
-	$Centro/Painel/Conteudo/Stats/P1Hits.text = str(stats["p1"]["hits"])
-	$Centro/Painel/Conteudo/Stats/P1Combo.text = str(stats["p1"]["combo_max"])
-	$Centro/Painel/Conteudo/Stats/P1Rounds.text = str(stats["p1"]["rounds"])
+	$Centro/Painel/Conteudo/Coluna/Stats/P1Dano.text = str(stats["p1"]["dano"])
+	$Centro/Painel/Conteudo/Coluna/Stats/P1Hits.text = str(stats["p1"]["hits"])
+	$Centro/Painel/Conteudo/Coluna/Stats/P1Combo.text = str(stats["p1"]["combo_max"])
+	$Centro/Painel/Conteudo/Coluna/Stats/P1Rounds.text = str(stats["p1"]["rounds"])
 
-	$Centro/Painel/Conteudo/Stats/P2Dano.text = str(stats["p2"]["dano"])
-	$Centro/Painel/Conteudo/Stats/P2Hits.text = str(stats["p2"]["hits"])
-	$Centro/Painel/Conteudo/Stats/P2Combo.text = str(stats["p2"]["combo_max"])
-	$Centro/Painel/Conteudo/Stats/P2Rounds.text = str(stats["p2"]["rounds"])
+	$Centro/Painel/Conteudo/Coluna/Stats/P2Dano.text = str(stats["p2"]["dano"])
+	$Centro/Painel/Conteudo/Coluna/Stats/P2Hits.text = str(stats["p2"]["hits"])
+	$Centro/Painel/Conteudo/Coluna/Stats/P2Combo.text = str(stats["p2"]["combo_max"])
+	$Centro/Painel/Conteudo/Coluna/Stats/P2Rounds.text = str(stats["p2"]["rounds"])

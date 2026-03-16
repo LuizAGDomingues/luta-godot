@@ -291,6 +291,9 @@ static func criar_sprite_frames(id_personagem: String) -> SpriteFrames:
 			bool(dados_animacao["loop"])
 		)
 
+	if frames.has_animation("default"):
+		frames.remove_animation("default")
+
 	return frames
 
 static func obter_preview_textura(id_personagem: String):

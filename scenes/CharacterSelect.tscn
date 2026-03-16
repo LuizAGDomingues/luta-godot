@@ -1,59 +1,39 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/CharacterSelect.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/MenuFundo.gd" id="2"]
 
-[sub_resource type="StyleBoxFlat" id="card_p1"]
-bg_color = Color(0.06, 0.04, 0.12, 0.9)
+[sub_resource type="StyleBoxFlat" id="painel_p1"]
+bg_color = Color(0.04, 0.03, 0.1, 0.85)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.3, 0.5, 0.95, 0.6)
+border_color = Color(0.3, 0.5, 0.95, 0.5)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="card_p2"]
-bg_color = Color(0.12, 0.04, 0.06, 0.9)
+[sub_resource type="StyleBoxFlat" id="painel_p2"]
+bg_color = Color(0.1, 0.03, 0.04, 0.85)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.9, 0.3, 0.4, 0.6)
+border_color = Color(0.9, 0.3, 0.4, 0.5)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="preview_frame"]
-bg_color = Color(0.02, 0.02, 0.02, 0.95)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.7, 0.6, 0.2, 0.3)
 
 [sub_resource type="StyleBoxFlat" id="opt_normal"]
-bg_color = Color(0.08, 0.06, 0.12, 0.9)
+bg_color = Color(0.08, 0.06, 0.1, 0.9)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.6, 0.5, 0.2, 0.4)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxFlat" id="opt_focus"]
-bg_color = Color(0.15, 0.08, 0.04, 0.95)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.95, 0.8, 0.2, 0.9)
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
@@ -76,209 +56,173 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("2")
 
-[node name="Centro" type="CenterContainer" parent="."]
+[node name="Layout" type="MarginContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
 
-[node name="Conteudo" type="VBoxContainer" parent="Centro"]
-custom_minimum_size = Vector2(960, 540)
-theme_override_constants/separation = 10
+[node name="Coluna" type="VBoxContainer" parent="Layout"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
 alignment = 1
+theme_override_constants/separation = 8
 
-[node name="Titulo" type="Label" parent="Centro/Conteudo"]
+[node name="Titulo" type="Label" parent="Layout/Coluna"]
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
 theme_override_colors/font_outline_color = Color(0.1, 0.02, 0.02, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 22
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 24
 text = "SELECT YOUR FIGHTER"
 
-[node name="TituloModo" type="Label" parent="Centro/Conteudo"]
+[node name="TituloModo" type="Label" parent="Layout/Coluna"]
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.7, 0.6, 0.4, 0.7)
 theme_override_font_sizes/font_size = 12
 text = "VERSUS"
 
-[node name="LinhaDificuldade" type="HBoxContainer" parent="Centro/Conteudo"]
+[node name="Centro" type="HBoxContainer" parent="Layout/Coluna"]
+size_flags_vertical = 3
 alignment = 1
-theme_override_constants/separation = 10
+theme_override_constants/separation = 16
 
-[node name="LabelDificuldade" type="Label" parent="Centro/Conteudo/LinhaDificuldade"]
-theme_override_colors/font_color = Color(0.8, 0.7, 0.4, 1)
-theme_override_font_sizes/font_size = 12
-text = "DIFFICULTY:"
+[node name="PainelP1" type="PanelContainer" parent="Layout/Coluna/Centro"]
+custom_minimum_size = Vector2(220, 0)
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("painel_p1")
 
-[node name="Dificuldade" type="OptionButton" parent="Centro/Conteudo/LinhaDificuldade"]
-custom_minimum_size = Vector2(160, 0)
-theme_override_styles/normal = SubResource("opt_normal")
-theme_override_styles/hover = SubResource("opt_focus")
-theme_override_styles/focus = SubResource("opt_focus")
-theme_override_styles/pressed = SubResource("opt_focus")
+[node name="MargemP1" type="MarginContainer" parent="Layout/Coluna/Centro/PainelP1"]
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
 
-[node name="Infos" type="HBoxContainer" parent="Centro/Conteudo"]
-theme_override_constants/separation = 24
-alignment = 1
+[node name="ColunaP1" type="VBoxContainer" parent="Layout/Coluna/Centro/PainelP1/MargemP1"]
+theme_override_constants/separation = 4
 
-[node name="CardP1" type="PanelContainer" parent="Centro/Conteudo/Infos"]
-custom_minimum_size = Vector2(380, 360)
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("card_p1")
-
-[node name="ConteudoP1" type="MarginContainer" parent="Centro/Conteudo/Infos/CardP1"]
-theme_override_constants/margin_left = 14
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 14
-theme_override_constants/margin_bottom = 12
-
-[node name="ColunaP1" type="VBoxContainer" parent="Centro/Conteudo/Infos/CardP1/ConteudoP1"]
-theme_override_constants/separation = 8
-
-[node name="LabelP1" type="Label" parent="Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1"]
+[node name="LabelP1" type="Label" parent="Layout/Coluna/Centro/PainelP1/MargemP1/ColunaP1"]
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.4, 0.6, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 14
 text = "PLAYER 1"
 
-[node name="PreviewP1Frame" type="PanelContainer" parent="Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1"]
-theme_override_styles/panel = SubResource("preview_frame")
-
-[node name="PreviewP1" type="TextureRect" parent="Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1/PreviewP1Frame"]
-custom_minimum_size = Vector2(320, 160)
+[node name="PreviewP1" type="TextureRect" parent="Layout/Coluna/Centro/PainelP1/MargemP1/ColunaP1"]
+custom_minimum_size = Vector2(200, 180)
+size_flags_horizontal = 4
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SelecaoP1" type="OptionButton" parent="Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1"]
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
-theme_override_styles/normal = SubResource("opt_normal")
-theme_override_styles/hover = SubResource("opt_focus")
-theme_override_styles/focus = SubResource("opt_focus")
-theme_override_styles/pressed = SubResource("opt_focus")
-
-[node name="InfoP1" type="Label" parent="Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1"]
-custom_minimum_size = Vector2(0, 64)
-autowrap_mode = 3
+[node name="NomeP1" type="Label" parent="Layout/Coluna/Centro/PainelP1/MargemP1/ColunaP1"]
 horizontal_alignment = 1
-vertical_alignment = 1
-theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 0.8)
-theme_override_font_sizes/font_size = 11
-text = "P1"
-
-[node name="ReadyP1" type="Label" parent="Centro/Conteudo/Infos/CardP1/ConteudoP1/ColunaP1"]
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.2, 0.9, 0.4, 1)
+theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 16
+text = "CHARACTER"
+
+[node name="InfoP1" type="Label" parent="Layout/Coluna/Centro/PainelP1/MargemP1/ColunaP1"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.7, 0.7, 0.85, 0.8)
+theme_override_font_sizes/font_size = 10
+text = "HP: 100  SPD: 5.0
+ATK: 20 / 30"
+
+[node name="ReadyP1" type="Label" parent="Layout/Coluna/Centro/PainelP1/MargemP1/ColunaP1"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.95, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 18
 text = "READY!"
 visible = false
 
-[node name="VS" type="Label" parent="Centro/Conteudo/Infos"]
-custom_minimum_size = Vector2(60, 0)
-horizontal_alignment = 1
-vertical_alignment = 1
-theme_override_colors/font_color = Color(0.95, 0.8, 0.2, 0.8)
-theme_override_colors/font_outline_color = Color(0.3, 0.08, 0.04, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 32
-text = "VS"
-
-[node name="CardP2" type="PanelContainer" parent="Centro/Conteudo/Infos"]
-custom_minimum_size = Vector2(380, 360)
+[node name="GradeContainer" type="CenterContainer" parent="Layout/Coluna/Centro"]
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("card_p2")
+size_flags_vertical = 4
 
-[node name="ConteudoP2" type="MarginContainer" parent="Centro/Conteudo/Infos/CardP2"]
-theme_override_constants/margin_left = 14
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 14
-theme_override_constants/margin_bottom = 12
+[node name="Grade" type="Control" parent="Layout/Coluna/Centro/GradeContainer"]
+custom_minimum_size = Vector2(378, 186)
 
-[node name="ColunaP2" type="VBoxContainer" parent="Centro/Conteudo/Infos/CardP2/ConteudoP2"]
-theme_override_constants/separation = 8
+[node name="PainelP2" type="PanelContainer" parent="Layout/Coluna/Centro"]
+custom_minimum_size = Vector2(220, 0)
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("painel_p2")
 
-[node name="LabelP2" type="Label" parent="Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2"]
+[node name="MargemP2" type="MarginContainer" parent="Layout/Coluna/Centro/PainelP2"]
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="ColunaP2" type="VBoxContainer" parent="Layout/Coluna/Centro/PainelP2/MargemP2"]
+theme_override_constants/separation = 4
+
+[node name="LabelP2" type="Label" parent="Layout/Coluna/Centro/PainelP2/MargemP2/ColunaP2"]
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(1, 0.4, 0.5, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 14
 text = "PLAYER 2"
 
-[node name="PreviewP2Frame" type="PanelContainer" parent="Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2"]
-theme_override_styles/panel = SubResource("preview_frame")
-
-[node name="PreviewP2" type="TextureRect" parent="Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2/PreviewP2Frame"]
-custom_minimum_size = Vector2(320, 160)
+[node name="PreviewP2" type="TextureRect" parent="Layout/Coluna/Centro/PainelP2/MargemP2/ColunaP2"]
+custom_minimum_size = Vector2(200, 180)
+size_flags_horizontal = 4
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SelecaoP2" type="OptionButton" parent="Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2"]
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
-theme_override_styles/normal = SubResource("opt_normal")
-theme_override_styles/hover = SubResource("opt_focus")
-theme_override_styles/focus = SubResource("opt_focus")
-theme_override_styles/pressed = SubResource("opt_focus")
-
-[node name="InfoP2" type="Label" parent="Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2"]
-custom_minimum_size = Vector2(0, 64)
-autowrap_mode = 3
+[node name="NomeP2" type="Label" parent="Layout/Coluna/Centro/PainelP2/MargemP2/ColunaP2"]
 horizontal_alignment = 1
-vertical_alignment = 1
-theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 0.8)
-theme_override_font_sizes/font_size = 11
-text = "P2"
-
-[node name="ReadyP2" type="Label" parent="Centro/Conteudo/Infos/CardP2/ConteudoP2/ColunaP2"]
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.2, 0.9, 0.4, 1)
+theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 16
+text = "CHARACTER"
+
+[node name="InfoP2" type="Label" parent="Layout/Coluna/Centro/PainelP2/MargemP2/ColunaP2"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.7, 0.7, 0.85, 0.8)
+theme_override_font_sizes/font_size = 10
+text = "HP: 100  SPD: 5.0
+ATK: 20 / 30"
+
+[node name="ReadyP2" type="Label" parent="Layout/Coluna/Centro/PainelP2/MargemP2/ColunaP2"]
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.95, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 18
 text = "READY!"
 visible = false
 
-[node name="Botoes" type="HBoxContainer" parent="Centro/Conteudo"]
+[node name="LinhaDificuldade" type="HBoxContainer" parent="Layout/Coluna"]
 alignment = 1
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 
-[node name="Iniciar" type="Button" parent="Centro/Conteudo/Botoes"]
+[node name="LabelDificuldade" type="Label" parent="Layout/Coluna/LinhaDificuldade"]
+theme_override_colors/font_color = Color(0.8, 0.7, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "DIFFICULTY:"
+
+[node name="Dificuldade" type="OptionButton" parent="Layout/Coluna/LinhaDificuldade"]
 custom_minimum_size = Vector2(140, 0)
-theme_override_colors/font_color = Color(0.95, 0.9, 0.6, 1)
-theme_override_colors/font_focus_color = Color(1, 0.95, 0.5, 1)
-theme_override_colors/font_hover_color = Color(1, 0.95, 0.5, 1)
-theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("opt_normal")
-theme_override_styles/hover = SubResource("opt_focus")
-theme_override_styles/focus = SubResource("opt_focus")
-theme_override_styles/pressed = SubResource("opt_focus")
-text = "FIGHT!"
 
-[node name="Voltar" type="Button" parent="Centro/Conteudo/Botoes"]
-custom_minimum_size = Vector2(140, 0)
-theme_override_colors/font_color = Color(0.7, 0.65, 0.5, 0.8)
-theme_override_colors/font_focus_color = Color(1, 0.95, 0.5, 1)
-theme_override_colors/font_hover_color = Color(1, 0.95, 0.5, 1)
-theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("opt_normal")
-theme_override_styles/hover = SubResource("opt_focus")
-theme_override_styles/focus = SubResource("opt_focus")
-theme_override_styles/pressed = SubResource("opt_focus")
-text = "BACK"
-
-[node name="Hint" type="Label" parent="Centro/Conteudo"]
+[node name="Hint" type="Label" parent="Layout/Coluna"]
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.5, 0.45, 0.35, 0.4)
 theme_override_font_sizes/font_size = 9
-text = "P1: A/D select · W confirm · S cancel  |  P2: Arrows · UP confirm · DOWN cancel"
+text = "P1: WASD move · F/Space confirm · G/Q cancel  |  P2: Arrows · Enter confirm · Backspace cancel"
 
-[node name="Countdown" type="Label" parent="Centro/Conteudo"]
+[node name="Countdown" type="Label" parent="Layout/Coluna"]
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
 theme_override_colors/font_outline_color = Color(0.1, 0.02, 0.02, 1)

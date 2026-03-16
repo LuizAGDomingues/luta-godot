@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 const CENA_NUMERO_DANO = preload("res://scenes/ui/NumeroDano.tscn")
+const CENA_COMBO = preload("res://scenes/ui/ComboDisplay.tscn")
 
 @onready var nome_p1: Label = $Root/Topo/LadoP1/NomeP1
 @onready var nome_p2: Label = $Root/Topo/LadoP2/NomeP2
@@ -18,6 +19,8 @@ var lutador2
 var alvo_vida_p1 = 100.0
 var alvo_vida_p2 = 100.0
 var modo_treino = false
+var combo_p1: Label = null
+var combo_p2: Label = null
 
 func configurar(novo_lutador1, novo_lutador2, em_treino: bool) -> void:
 	lutador1 = novo_lutador1
@@ -36,6 +39,7 @@ func configurar(novo_lutador1, novo_lutador2, em_treino: bool) -> void:
 	lutador1.vida_alterada.connect(_on_vida_p1_alterada)
 	lutador2.vida_alterada.connect(_on_vida_p2_alterada)
 	label_central.visible = false
+	_criar_combo_displays()
 
 func _process(_delta: float) -> void:
 	barra_p1.value = lerpf(float(barra_p1.value), alvo_vida_p1, 0.18)
@@ -71,11 +75,24 @@ func exibir_numero_dano(posicao_mundo: Vector2, dano: int, combo: int) -> void:
 	if numero.has_method("configurar"):
 		numero.configurar(dano, combo)
 
+func atualizar_combo(chave: String, combo: int) -> void:
+	var display = combo_p1 if chave == "p1" else combo_p2
+	if display != null and display.has_method("mostrar_combo"):
+		display.mostrar_combo(combo)
+
 func _on_vida_p1_alterada(vida_atual: int, _vida_max: int) -> void:
 	alvo_vida_p1 = vida_atual
 
 func _on_vida_p2_alterada(vida_atual: int, _vida_max: int) -> void:
 	alvo_vida_p2 = vida_atual
+
+func _criar_combo_displays() -> void:
+	combo_p1 = CENA_COMBO.instantiate()
+	combo_p1.position = Vector2(180, 130)
+	camada_dano.add_child(combo_p1)
+	combo_p2 = CENA_COMBO.instantiate()
+	combo_p2.position = Vector2(780, 130)
+	camada_dano.add_child(combo_p2)
 
 func _gerar_dots(valor, alvo):
 	var dots = []

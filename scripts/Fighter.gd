@@ -3,6 +3,8 @@ class_name Fighter
 
 signal projetil_solicitado(dados_spawn)
 signal vida_alterada(vida_atual, vida_max)
+signal aterrissou(posicao)
+signal dash_iniciado(posicao, direcao)
 
 const GRAVIDADE = 2520.0
 const ESCALA_JS_PX = 60.0
@@ -57,6 +59,9 @@ var timer_cd_dash = 0.0
 var timer_invulneravel = 0.0
 var timer_hitstun = 0.0
 var timer_cd_ataque = 0.0
+var timer_flash_hit = 0.0
+var timer_hit_freeze = 0.0
+var estava_no_chao = true
 var ultimo_toque_esquerda = -10.0
 var ultimo_toque_direita = -10.0
 var modo_controle = "jogador"
@@ -148,8 +153,13 @@ func reiniciar_em(nova_posicao):
 func _physics_process(delta):
 	_atualizar_timers(delta)
 
+	if timer_hit_freeze > 0.0:
+		return
+
 	if not esta_morto():
 		_processar_controle()
+
+	var no_chao_antes = is_on_floor()
 
 	if not is_on_floor():
 		velocity.y += GRAVIDADE * delta
@@ -157,6 +167,10 @@ func _physics_process(delta):
 		velocity.y = 0.0
 
 	move_and_slide()
+
+	if not no_chao_antes and is_on_floor() and not estava_no_chao:
+		aterrissou.emit(Vector2(global_position.x + largura_corpo * 0.5, global_position.y + altura_corpo))
+	estava_no_chao = is_on_floor()
 
 	if global_position.x < 0.0:
 		global_position.x = 0.0
@@ -219,6 +233,8 @@ func receber_dano(dano, knockback):
 	dash_ativo = false
 	hit_registrado = false
 	projetil_disparado_no_ataque = false
+	timer_flash_hit = 0.12
+	timer_hit_freeze = 0.04
 
 	var direcao = 1.0
 	if olhando_direita:
@@ -312,6 +328,7 @@ func _iniciar_dash(direcao):
 	timer_cd_dash = COOLDOWN_DASH
 	timer_invulneravel = max(timer_invulneravel, IFRAMES_DASH)
 	velocity.x = VELOCIDADE_DASH * float(direcao)
+	dash_iniciado.emit(Vector2(global_position.x + largura_corpo * 0.5, global_position.y + altura_corpo), direcao)
 
 func _pode_atacar():
 	return not esta_morto() and not atacando and not dash_ativo and timer_cd_ataque <= 0.0
@@ -334,6 +351,8 @@ func _atualizar_timers(delta):
 	timer_invulneravel = max(0.0, timer_invulneravel - delta)
 	timer_hitstun = max(0.0, timer_hitstun - delta)
 	timer_cd_ataque = max(0.0, timer_cd_ataque - delta)
+	timer_flash_hit = max(0.0, timer_flash_hit - delta)
+	timer_hit_freeze = max(0.0, timer_hit_freeze - delta)
 
 	if dash_ativo:
 		if timer_dash <= 0.0:
@@ -383,11 +402,17 @@ func _atualizar_visual():
 				_tocar_animacao("death")
 
 	var cor = Color.WHITE
-	if timer_invulneravel > 0.0:
-		if int(Time.get_ticks_msec() / 60) % 2 == 0:
-			cor.a = 0.6
-		else:
-			cor.a = 0.9
+	if timer_flash_hit > 0.0:
+		var t = timer_flash_hit / 0.12
+		cor = Color(1.0, 1.0, 1.0).lerp(Color.WHITE, 1.0 - t)
+		sprite_anim.material = _obter_material_flash(t)
+	else:
+		sprite_anim.material = null
+		if timer_invulneravel > 0.0:
+			if int(Time.get_ticks_msec() / 60) % 2 == 0:
+				cor.a = 0.6
+			else:
+				cor.a = 0.9
 	sprite_anim.modulate = cor
 	_aplicar_flip()
 
@@ -443,3 +468,22 @@ func _on_frame_changed():
 		"atacante": self
 	}
 	projetil_solicitado.emit(dados_spawn)
+
+static var _material_flash: ShaderMaterial = null
+
+static func _obter_material_flash(intensidade: float) -> ShaderMaterial:
+	if _material_flash == null:
+		var shader = Shader.new()
+		shader.code = """
+shader_type canvas_item;
+uniform float flash_amount : hint_range(0.0, 1.0) = 0.0;
+void fragment() {
+	vec4 cor = texture(TEXTURE, UV);
+	cor.rgb = mix(cor.rgb, vec3(1.0), flash_amount);
+	COLOR = cor;
+}
+"""
+		_material_flash = ShaderMaterial.new()
+		_material_flash.shader = shader
+	_material_flash.set_shader_parameter("flash_amount", intensidade * 0.7)
+	return _material_flash

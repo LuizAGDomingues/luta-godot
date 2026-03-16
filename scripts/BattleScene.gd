@@ -10,14 +10,18 @@ const CENA_PROJETIL = preload("res://scenes/Projectile.tscn")
 @onready var musica = $Musica
 @onready var projetis = $Projetis
 @onready var pause_menu = $PauseMenu
+@onready var efeitos = $Efeitos
 
 var tempo_restante = TEMPO_PARTIDA
 var luta_encerrando = false
 var round_em_transicao = false
+var round_iniciando = true
 var em_treino = false
 var ia_controller = null
 var mostrar_hitboxes = false
 var estatisticas = {}
+var timer_ready = 0.0
+var fase_ready = 0
 
 func _ready():
 	randomize()
@@ -48,6 +52,11 @@ func _ready():
 
 	fighter1.projetil_solicitado.connect(_on_fighter1_projetil_solicitado)
 	fighter2.projetil_solicitado.connect(_on_fighter2_projetil_solicitado)
+	fighter1.aterrissou.connect(_on_aterrissagem)
+	fighter2.aterrissou.connect(_on_aterrissagem)
+	fighter1.dash_iniciado.connect(_on_dash)
+	fighter2.dash_iniciado.connect(_on_dash)
+	CombatSystem.hit_acertado.connect(_on_hit_acertado)
 	pause_menu.continuar_solicitado.connect(_retomar_jogo)
 	pause_menu.reiniciar_solicitado.connect(_reiniciar_partida)
 	pause_menu.menu_solicitado.connect(_voltar_menu)
@@ -56,19 +65,28 @@ func _ready():
 	hud.atualizar_timer(tempo_restante)
 	pause_menu.visible = false
 
+	round_iniciando = true
+	fase_ready = 0
+	timer_ready = 0.8
+	hud.mostrar_texto("READY")
+
 	if musica.stream == null:
 		musica.stream = load("res://assets/audio/Perimore.mp3")
 	if musica.stream != null:
 		musica.play()
 
 func _process(delta):
-	if Input.is_action_just_pressed("pausar") and not luta_encerrando and not round_em_transicao:
+	if Input.is_action_just_pressed("pausar") and not luta_encerrando and not round_em_transicao and not round_iniciando:
 		_alternar_pausa()
 	if em_treino and Input.is_action_just_pressed("toggle_hitboxes"):
 		mostrar_hitboxes = not mostrar_hitboxes
 	queue_redraw()
 
 	if get_tree().paused:
+		return
+
+	if round_iniciando:
+		_processar_ready_fight(delta)
 		return
 
 	if round_em_transicao or luta_encerrando:
@@ -123,6 +141,7 @@ func _resolver_ataque(atacante, defensor, chave):
 	var combo = int(resultado["combo"])
 	_registrar_hit(chave, int(resultado["dano"]), combo)
 	hud.exibir_numero_dano(defensor.global_position + Vector2(defensor.largura_corpo * 0.5, -12), int(resultado["dano"]), combo)
+	hud.atualizar_combo(chave, combo)
 	AudioManager.tocar_hit()
 	if combo < 2:
 		camera.adicionar_trauma(0.22)
@@ -147,8 +166,10 @@ func _verificar_projeteis():
 			continue
 
 		projetil.explodir()
-		_registrar_hit(projetil.atacante_id, int(resultado["dano"]), int(resultado["combo"]))
-		hud.exibir_numero_dano(alvo.global_position + Vector2(alvo.largura_corpo * 0.5, -18), int(resultado["dano"]), int(resultado["combo"]))
+		var combo_proj = int(resultado["combo"])
+		_registrar_hit(projetil.atacante_id, int(resultado["dano"]), combo_proj)
+		hud.exibir_numero_dano(alvo.global_position + Vector2(alvo.largura_corpo * 0.5, -18), int(resultado["dano"]), combo_proj)
+		hud.atualizar_combo(projetil.atacante_id, combo_proj)
 		AudioManager.tocar_hit()
 		camera.adicionar_trauma(0.22)
 
@@ -202,7 +223,6 @@ func _finalize_transicao_round():
 
 func _reiniciar_round():
 	round_em_transicao = false
-	hud.esconder_texto()
 	tempo_restante = TEMPO_PARTIDA
 	CombatSystem.reiniciar()
 	for filho in projetis.get_children():
@@ -213,6 +233,10 @@ func _reiniciar_round():
 	fighter2.apontar_para(fighter1.global_position.x)
 	hud.atualizar_rounds(GameState.rounds_ganhos_p1, GameState.rounds_ganhos_p2, GameState.rounds_para_vencer)
 	hud.atualizar_timer(tempo_restante)
+	round_iniciando = true
+	fase_ready = 0
+	timer_ready = 0.8
+	hud.mostrar_texto("READY")
 
 func _encerrar_partida(nome_vencedor):
 	if luta_encerrando:
@@ -263,6 +287,30 @@ func _registrar_hit(chave, dano, combo):
 	estatisticas[chave]["hits"] = int(estatisticas[chave]["hits"]) + 1
 	if combo > int(estatisticas[chave]["combo_max"]):
 		estatisticas[chave]["combo_max"] = combo
+
+func _processar_ready_fight(delta):
+	timer_ready -= delta
+	if timer_ready <= 0.0:
+		fase_ready += 1
+		if fase_ready == 1:
+			hud.mostrar_texto("FIGHT!")
+			timer_ready = 0.6
+		else:
+			hud.esconder_texto()
+			round_iniciando = false
+
+func _on_aterrissagem(posicao: Vector2) -> void:
+	if efeitos != null:
+		efeitos.criar_poeira_aterrissagem(posicao)
+
+func _on_dash(posicao: Vector2, direcao: int) -> void:
+	if efeitos != null:
+		efeitos.criar_poeira_dash(posicao, direcao)
+
+func _on_hit_acertado(_atacante, defensor, _dano, combo) -> void:
+	if efeitos != null and defensor != null:
+		var pos_hit = defensor.global_position + Vector2(defensor.largura_corpo * 0.5, defensor.altura_corpo * 0.4)
+		efeitos.criar_hit_sparks(pos_hit, combo)
 
 func _draw():
 	if not em_treino or not mostrar_hitboxes:

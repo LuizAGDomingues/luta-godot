@@ -1,7 +1,7 @@
 # PROJETO.md - Estado Real do Projeto
 
 > Documento canonico de contexto para este workspace.
-> Atualizado em: 15/03/2026.
+> Atualizado em: 16/03/2026.
 > Se este arquivo divergir do codigo, o codigo vence.
 
 ---
@@ -105,6 +105,13 @@ Hoje o projeto Godot ja tem uma base funcional jogavel.
 - pausa com continuar/reiniciar/menu
 - pos-partida com stats e navegacao por teclado
 - hitboxes visiveis no treino com `H`
+- combo display dedicado por jogador
+- particulas de hit (sparks com cor escalando por combo)
+- poeira de aterrissagem e dash
+- flash branco ao receber dano (shader)
+- hit freeze frame curto para feedback de impacto
+- sequencia READY / FIGHT! no inicio de cada round
+- numeros de dano com escala e animacao baseada em combo
 
 ### O que ainda esta incompleto ou distante do JS
 
@@ -113,9 +120,7 @@ Hoje o projeto Godot ja tem uma base funcional jogavel.
 - selecao ja tem confirmacao e countdown, mas ainda nao replica o fluxo/cartoes do JS com a mesma fidelidade
 - menu ja tem navegacao por teclado, mas ainda nao tem todos os overlays/modais do original
 - pos-partida e pausa ja existem com navegacao, mas ainda faltam acabamento e polish
-- efeitos visuais do JS ainda estao simplificados
-- particulas do JS ainda nao foram portadas
-- combo display dedicado ainda nao existe
+- efeitos visuais do JS ainda podem ser mais refinados (particulas mais detalhadas, trails)
 - audio sintetizado do JS ainda nao foi aproximado com fidelidade
 - falta validar personagem por personagem
 
@@ -188,6 +193,8 @@ estao copiados e configurados em `DadosPersonagens.gd`.
 - `scripts/PauseMenu.gd`
 - `scripts/NumeroDano.gd`
 - `scripts/CameraJogo.gd`
+- `scripts/ComboDisplay.gd`
+- `scripts/EfeitosVisuais.gd`
 
 ### Cenas principais
 
@@ -200,6 +207,7 @@ estao copiados e configurados em `DadosPersonagens.gd`.
 - `scenes/ui/HUD.tscn`
 - `scenes/ui/PauseMenu.tscn`
 - `scenes/ui/NumeroDano.tscn`
+- `scenes/ui/ComboDisplay.tscn`
 
 ---
 
@@ -277,11 +285,8 @@ Lista realista do que ainda falta migrar ou polir:
 - revisar hitboxes e offsets personagem por personagem
 - revisar alcance e frame windows de ataques
 - portar ou aproximar:
-  - particulas
-  - combo display
-  - dust effects
-  - mais polish de camera
-  - feedback visual de hit
+  - particulas mais detalhadas e trails
+  - mais polish de camera (tracking dos lutadores)
 - melhorar IA para ficar mais proxima do JS
 - validar projeteis e timings por personagem
 - revisar a tela de pausa

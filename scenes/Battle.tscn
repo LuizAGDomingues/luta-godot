@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/BattleScene.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/Fighter.tscn" id="2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/CameraJogo.gd" id="5"]
 [ext_resource type="Texture2D" path="res://assets/stage/background.png" id="6"]
 [ext_resource type="Texture2D" path="res://assets/stage/shop.png" id="7"]
+[ext_resource type="Script" path="res://scripts/EfeitosVisuais.gd" id="8"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(2200, 32)
@@ -51,6 +52,9 @@ script = ExtResource("5")
 [node name="Fighter2" parent="." instance=ExtResource("2")]
 
 [node name="Projetis" type="Node2D" parent="."]
+
+[node name="Efeitos" type="Node2D" parent="."]
+script = ExtResource("8")
 
 [node name="HUD" parent="." instance=ExtResource("3")]
 
